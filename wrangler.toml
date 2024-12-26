@@ -5,6 +5,10 @@ compatibility_date = "2024-01-01"
 # Production environment
 [vars]
 ENVIRONMENT = "production"
+# Specify the URL where the Worker is applied
+routes = [
+  { pattern = "https://nodejs-worker-api-demo.cloudexp.nl/*", script = "nodejs-worker-api" }
+]
 
 # Development environment
 [env.development]
@@ -19,3 +23,5 @@ vars = { ENVIRONMENT = "staging" }
 # Configure minimal duration for cron triggers
 [triggers]
 crons = []
+
+

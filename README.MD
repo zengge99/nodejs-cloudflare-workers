@@ -4,8 +4,8 @@ A production-ready Node.js API deployed on Cloudflare Workers with versioned end
 
 [![Tests](https://github.com/your-username/your-repo/actions/workflows/test.yml/badge.svg)](https://github.com/your-username/your-repo/actions/workflows/test.yml)
 [![Deploy](https://github.com/your-username/your-repo/actions/workflows/deploy.yml/badge.svg)](https://github.com/your-username/your-repo/actions/workflows/deploy.yml)
-[![codecov](https://codecov.io/gh/your-username/your-repo/branch/main/graph/badge.svg)](https://codecov.io/gh/your-username/your-repo)
-![GitHub](https://img.shields.io/github/license/your-username/your-repo)
+[![codecov](https://codecov.io/github/advissor/nodejs-cloudflare-workers/graph/badge.svg?token=W7GT5NWIWO)](https://codecov.io/github/advissor/nodejs-cloudflare-workers)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Prerequisites
 
