@@ -7,7 +7,7 @@ compatibility_date = "2024-01-01"
 ENVIRONMENT = "production"
 # Specify the URL where the Worker is applied
 routes = [
-  { pattern = "https://nodejs-worker-api-demo.cloudexp.nl/*", script = "nodejs-worker-api" }
+  { pattern = "https://nodejs-worker-api-demo.cloudexp.nl/*", script = "nodejs-worker-api" , custom_domain = true}
 ]
 
 # Development environment
@@ -24,4 +24,5 @@ vars = { ENVIRONMENT = "staging" }
 [triggers]
 crons = []
 
-
+[observability.logs]
+enabled = true
