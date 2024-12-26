@@ -1,4 +1,9 @@
 import { Miniflare } from "miniflare";
+import { vi } from 'vitest';
+
+vi.mock('crypto', () => ({
+  randomUUID: () => "test-uuid"
+}));
 
 // Setup global test environment
 globalThis.crypto = {
