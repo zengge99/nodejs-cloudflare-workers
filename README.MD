@@ -2,8 +2,8 @@
 
 A production-ready Node.js API deployed on Cloudflare Workers with versioned endpoints.
 
-[![Tests](https://github.com/your-username/your-repo/actions/workflows/test.yml/badge.svg)](https://github.com/your-username/your-repo/actions/workflows/test.yml)
-[![Deploy](https://github.com/your-username/your-repo/actions/workflows/deploy.yml/badge.svg)](https://github.com/your-username/your-repo/actions/workflows/deploy.yml)
+[![Test](https://github.com/advissor/nodejs-cloudflare-workers/actions/workflows/test.yml/badge.svg)](https://github.com/advissor/nodejs-cloudflare-workers/actions/workflows/test.yml)
+[![Deploy](https://github.com/advissor/nodejs-cloudflare-workers/actions/workflows/deploy.yml/badge.svg)](https://github.com/advissor/nodejs-cloudflare-workers/actions/workflows/deploy.yml)
 [![codecov](https://codecov.io/github/advissor/nodejs-cloudflare-workers/graph/badge.svg?token=W7GT5NWIWO)](https://codecov.io/github/advissor/nodejs-cloudflare-workers)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -53,6 +53,19 @@ Deploy to different environments:
 # Deploy to production
 npm run deploy
 ```
+
+## Example of test & test coverage
+
+```bash
+npm run test
+npm run test:coverage
+```
+
+Screenshot of test coverage:
+
+![Test Coverage](./codecoverage.png)
+![Unit Test Coverage](./vitests-cloudflare-worker.png)
+
 
 ## API Endpoints
 
