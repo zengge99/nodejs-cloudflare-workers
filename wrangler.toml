@@ -1,0 +1,21 @@
+name = "nodejs-worker-api"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+
+# Production environment
+[vars]
+ENVIRONMENT = "production"
+
+# Development environment
+[env.development]
+name = "nodejs-worker-api-dev"
+vars = { ENVIRONMENT = "development" }
+
+# Staging environment
+[env.staging]
+name = "nodejs-worker-api-staging"
+vars = { ENVIRONMENT = "staging" }
+
+# Configure minimal duration for cron triggers
+[triggers]
+crons = []

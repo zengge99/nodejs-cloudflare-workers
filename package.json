@@ -1,0 +1,48 @@
+{
+  "name": "nodejs-worker-api",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "deploy:staging": "wrangler deploy --env staging",
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "test": "node --experimental-vm-modules node_modules/vitest/vitest.mjs run",
+    "test:watch": "node --experimental-vm-modules node_modules/vitest/vitest.mjs",
+    "test:coverage": "node --experimental-vm-modules node_modules/vitest/vitest.mjs run --coverage",
+    "format": "prettier --write '**/*.{js,json,md}'",
+    "lint": "eslint src/"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240208.0",
+    "@eslint/js": "^9.17.0",
+    "@vitest/coverage-v8": "^2.1.8",
+    "eslint": "^8.57.1",
+    "globals": "^15.14.0",
+    "miniflare": "^3.20240208.0",
+    "prettier": "^3.2.5",
+    "vitest": "^2.1.8",
+    "wrangler": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "vitest": {
+    "coverage": {
+      "provider": "v8",
+      "reporter": [
+        "text",
+        "json",
+        "html"
+      ],
+      "exclude": [
+        "node_modules/**",
+        "test/**",
+        "coverage/**"
+      ],
+      "sourceMap": true,
+      "all": true
+    }
+  }
+}
