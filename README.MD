@@ -18,7 +18,7 @@ A production-ready Node.js API deployed on Cloudflare Workers with versioned end
    Install Wrangler CLI:
 
 ```bash
-npm install -g wrangler
+npm install
 ```
 
 ## Project Structure
@@ -53,6 +53,11 @@ Deploy to different environments:
 # Deploy to production
 npm run deploy
 ```
+## Tailing logs via Wrangler CLI
+
+```bash
+wrangler tail
+```
 
 ## Example of test & test coverage
 
@@ -65,7 +70,6 @@ Screenshot of test coverage:
 
 ![Test Coverage](./codecoverage.png)
 ![Unit Test Coverage](./vitests-cloudflare-worker.png)
-
 
 ## API Endpoints
 
