@@ -1,32 +1,35 @@
-name: Deploy
+name: Fix npm lockfile
 
 on:
+  workflow_dispatch:  # 允许手动触发
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches: [ main ]  # 可替换成你的默认分支名
 
 jobs:
-  deploy:
+  fix-lockfile:
     runs-on: ubuntu-latest
-    environment: production
-    
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: Use Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18.x'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
-      
-    - name: Run tests
-      run: npm test
-      
-    - name: Deploy to Cloudflare
-      env:
-        CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      run: |
-        npm run deploy 2>&1 | sed -E 's#https://[a-zA-Z0-9.-]+\.workers\.dev#[REDACTED]#g'
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 获取完整 Git 历史（避免浅克隆导致提交失败）
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # 使用 Node.js 20（可调整版本）
+
+      - name: Delete old lockfile and node_modules
+        run: |
+          rm -rf package-lock.json node_modules
+
+      - name: Reinstall dependencies
+        run: npm install
+
+      - name: Commit updated lockfile
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add package-lock.json
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update package-lock.json"
+          git push
