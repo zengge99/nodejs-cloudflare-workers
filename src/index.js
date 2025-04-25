@@ -14,7 +14,7 @@ export default {
       // 导航到目标页面
       await page.goto("https://www.bing.com/search?q=%E5%85%AD%E5%A7%8A%E5%A6%B9+site%3amovie.douban.com%2fsubject", {
         waitUntil: 'networkidle2', // 等待页面完全加载
-        timeout: 30000 // 30秒超时
+        timeout: 3000 // 3秒超时
       });
 
       // 获取完整HTML内容
