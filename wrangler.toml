@@ -29,3 +29,7 @@ crons = []
 
 [observability.logs]
 enabled = true
+
+[kv_namespaces]
+binding = "MY_KV"
+id = ""  # 留空，Cloudflare会自动生成
