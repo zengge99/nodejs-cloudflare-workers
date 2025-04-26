@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "setup-kv": "bash -c 'echo \"\n[kv_namespaces]\" >> wrangler.toml && wrangler kv:namespace create MY_KV | grep -E \"binding|id\" | sed \"s/Add the following to your wrangler.toml://\" >> wrangler.toml'",
+    "setup-kv": "bash -c 'echo createkv;echo \"\n[kv_namespaces]\" >> wrangler.toml && wrangler kv:namespace create MY_KV | grep -E \"binding|id\" | sed \"s/Add the following to your wrangler.toml://\" >> wrangler.toml'",
     "predeploy": "npm run setup-kv",
     "deploy": "wrangler deploy",
     "deploy:staging": "wrangler deploy --env staging",
