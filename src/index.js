@@ -19,7 +19,7 @@ export default {
         const url = interceptedRequest.url();
         
         // 如果是搜索请求，保存完整请求对象
-        if (url.includes('/search')) {
+        if (url.includes('/')) {
           targetRequest = {
             request: interceptedRequest,
             url: url,
