@@ -21,7 +21,7 @@ export default {
       // 监听所有请求
       page.on('request', interceptedRequest => {
         // 只处理目标请求
-        if (interceptedRequest.url().includes('rdrig')) {
+        if (interceptedRequest.url().includes('/search')) {
           finalRequestInfo.url = interceptedRequest.url();
           finalRequestInfo.headers = interceptedRequest.headers();
           
