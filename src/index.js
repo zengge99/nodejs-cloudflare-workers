@@ -35,7 +35,7 @@ export default {
       await page.setRequestInterception(true);
       page.on('request', req => {
         const url = req.url();
-        if (url.includes('/search')) {
+        if (url.includes('bing.com/search')) {
           finalUrl = url;
           targetHeaders = {
             ...req.headers(),
