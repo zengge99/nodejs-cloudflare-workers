@@ -8,95 +8,85 @@ export default {
       const browser = await puppeteer.launch(env.MYBROWSER);
       const page = await browser.newPage();
 
-      // 存储最终请求的所有信息
-      let finalRequestInfo = {
-        url: null,
-        headers: {},
-        cookies: []
-      };
-
-      // 启用请求拦截以获取实际请求头
+      // 存储目标请求的完整信息
+      let targetRequest = null;
+      
+      // 启用请求拦截以获取所有请求头
       await page.setRequestInterception(true);
 
       // 监听所有请求
       page.on('request', interceptedRequest => {
-        // 只处理目标请求
-        if (interceptedRequest.url().includes('/search')) {
-          finalRequestInfo.url = interceptedRequest.url();
-          finalRequestInfo.headers = interceptedRequest.headers();
-          
-          // 继续请求
-          interceptedRequest.continue();
-        } else {
-          interceptedRequest.continue();
+        const url = interceptedRequest.url();
+        
+        // 如果是搜索请求，保存完整请求对象
+        if (url.includes('/search')) {
+          targetRequest = {
+            request: interceptedRequest,
+            url: url,
+            headers: interceptedRequest.headers(),
+            method: interceptedRequest.method()
+          };
         }
+        
+        interceptedRequest.continue();
       });
 
-      // 设置中文用户特征
+      // 设置浏览器特征
       await page.setExtraHTTPHeaders({
-        'Accept-Language': 'zh-CN,zh;q=0.9'
+        'Accept-Language': 'zh-CN,zh;q=0.9',
+        'Accept-Encoding': 'identity' // 禁用压缩
       });
-
+      
       await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
       await page.setViewport({ width: 1366, height: 768 });
 
       const initialUrl = "https://www2.bing.com/search?q=%E5%85%AD%E5%A7%8A%E5%A6%B9+site%3amovie.douban.com%2fsubject";
       await page.goto(initialUrl, {
         waitUntil: 'networkidle2',
-        timeout: 15000
+        timeout: 20000 // 增加超时时间
       });
 
-      // 获取最终cookies
-      finalRequestInfo.cookies = await page.cookies();
+      // 获取cookies
+      const cookies = await page.cookies();
       await browser.close();
 
-      // 如果没有捕获到目标请求（回退方案）
-      if (!finalRequestInfo.url) {
-        finalRequestInfo.url = initialUrl + "&fallback=1";
-        finalRequestInfo.headers = {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
-          'Accept-Language': 'zh-CN,zh;q=0.9',
-          ...finalRequestInfo.headers
+      // 处理未捕获请求的情况
+      if (!targetRequest) {
+        targetRequest = {
+          url: initialUrl,
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept-Language': 'zh-CN,zh;q=0.9',
+            'Accept-Encoding': 'identity'
+          },
+          method: 'GET'
         };
       }
 
-      // 构建完整的curl命令
-      const cookiesString = finalRequestInfo.cookies.map(c => `${c.name}=${c.value}`).join('; ');
-      const allHeaders = {
-        ...finalRequestInfo.headers,
-        'Cookie': cookiesString
+      // 构建curl命令
+      const cookiesString = cookies.map(c => `${c.name}=${c.value}`).join('; ');
+      const headers = {
+        ...targetRequest.headers,
+        'Cookie': cookiesString,
+        'Accept-Encoding': 'identity' // 确保禁用压缩
       };
 
-      const headersString = Object.entries(allHeaders)
-        .map(([key, value]) => `-H '${key}: ${value.replace(/'/g, "'\\''")}'`)
-        .join(' ');
+      // 生成格式化的curl命令
+      const curlCommand = [
+        `curl -X ${targetRequest.method} '${targetRequest.url}'`,
+        ...Object.entries(headers)
+          .filter(([k]) => k.toLowerCase() !== 'content-length') // 移除自动计算的Content-Length
+          .map(([k, v]) => `-H '${k}: ${v.replace(/'/g, "'\\''")}'`)
+      ].join(' \\\n    ');
 
-      const curlCommand = `curl -X GET '${finalRequestInfo.url}' ${headersString}`;
-
-      // 返回完整的请求信息（包括curl命令和原始数据）
-      const responseData = {
-        curl_command: curlCommand,
-        final_url: finalRequestInfo.url,
-        headers: finalRequestInfo.headers,
-        cookies: finalRequestInfo.cookies
-      };
-
-      return new Response(JSON.stringify(responseData, null, 2), {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      return new Response(JSON.stringify(targetRequest, null, 2), {
+        headers: { 'Content-Type': 'text/plain' }
       });
 
     } catch (error) {
-      return new Response(JSON.stringify({
-        error: error.message,
-        stack: error.stack
-      }), {
+      return new Response(`Error generating curl command: ${error.message}`, {
         status: 500,
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        headers: { 'Content-Type': 'text/plain' }
       });
     }
   },
