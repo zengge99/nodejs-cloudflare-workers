@@ -64,8 +64,7 @@ export default {
       const cookiesString = finalRequestInfo.cookies.map(c => `${c.name}=${c.value}`).join('; ');
       const allHeaders = {
         ...finalRequestInfo.headers,
-        'Cookie': cookiesString,
-        'X-Forwarded-For': '220.181.38.148' // 模拟中国IP
+        'Cookie': cookiesString
       };
 
       const headersString = Object.entries(allHeaders)
