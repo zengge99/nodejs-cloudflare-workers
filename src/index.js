@@ -34,8 +34,7 @@ export default {
 
       // 设置中文用户特征
       await page.setExtraHTTPHeaders({
-        'Accept-Language': 'zh-CN,zh;q=0.9',
-        'Referer': 'https://www.baidu.com/'
+        'Accept-Language': 'zh-CN,zh;q=0.9'
       });
 
       await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
