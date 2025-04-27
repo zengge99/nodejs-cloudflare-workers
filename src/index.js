@@ -79,7 +79,7 @@ export default {
           .map(([k, v]) => `-H '${k}: ${v.replace(/'/g, "'\\''")}'`)
       ].join(' \\\n    ');
 
-      return new Response(JSON.stringify(targetRequest, null, 2), {
+      return new Response(curlCommand, {
         headers: { 'Content-Type': 'text/plain' }
       });
 
