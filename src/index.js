@@ -58,7 +58,7 @@ export default {
         'Accept-Encoding': 'identity'
       });
 
-      const initialUrl = "https://www2.bing.com/search?q=abc%20%E5%85%AD%E5%A7%8A%E5%A6%B9+site%3amovie.douban.com%2fsubject";
+      const initialUrl = "https://www2.bing.com/search?q=%E5%85%AD%E5%A7%8A%E5%A6%B9+site%3amovie.douban.com%2fsubject";
       await page.goto(initialUrl, {
         waitUntil: 'networkidle2',
         timeout: 20000
