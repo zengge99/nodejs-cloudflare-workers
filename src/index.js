@@ -83,11 +83,8 @@ export default {
         cookies: finalRequestInfo.cookies
       };
 
-      return new Response(JSON.stringify(responseData, null, 2), {
-        status: 200,
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      return new Response(responseData.curlCommand, {
+        status: 200
       });
 
     } catch (error) {
